@@ -7,13 +7,14 @@ const Hero = ({ title, imageUrl }) => {
         <div className="banner">
           <h1>{title}</h1>
           <p>
-            ZeeCare Medical Institute is a state-of-the-art facility dedicated
-            to providing comprehensive healthcare services with compassion and
-            expertise. Our team of skilled professionals is committed to
-            delivering personalized care tailored to each patient's needs. At
-            ZeeCare, we prioritize your well-being, ensuring a harmonious
-            journey towards optimal health and wellness.
-          </p>
+            
+            Care Plus Medical Institute offers cutting-edge 
+            healthcare services with a focus on compassion and 
+            precision. Our dedicated team of experts provides 
+            personalized care tailored to your individual needs.
+             At Care Plus, we are committed to supporting your 
+             journey to optimal health and overall well-being.
+                      </p>
         </div>
         <div className="banner">
           <img src={imageUrl} alt="hero" className="animated-image" />

@@ -15,6 +15,7 @@ const Register = () => {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword,setConfirmPassword]=useState("")
 
   const navigateTo = useNavigate();
 
@@ -24,7 +25,7 @@ const Register = () => {
       await axios
         .post(
           "http://localhost:4000/api/v1/user/patient/register",
-          { firstName, lastName, email, phone, nic, dob, gender, password },
+          { firstName, lastName, email, phone, nic, dob, gender, password,confirmPassword },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -57,10 +58,7 @@ const Register = () => {
       <div className="container form-component register-form">
         <h2>Sign Up</h2>
         <p>Please Sign Up To Continue</p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat culpa
-          voluptas expedita itaque ex, totam ad quod error?
-        </p>
+        
         <form onSubmit={handleRegistration}>
           <div>
             <input
@@ -116,6 +114,12 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+             <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           </div>
           <div
             style={{
@@ -126,7 +130,7 @@ const Register = () => {
           >
             <p style={{ marginBottom: 0 }}>Already Registered?</p>
             <Link
-              to={"/signin"}
+              to={"/login"}
               style={{ textDecoration: "none", color: "#271776ca" }}
             >
               Login Now

@@ -5,7 +5,7 @@ import { generateToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, nic, dob, gender, password } =
+  const { firstName, lastName, email, phone, nic, dob, gender, password, confirmPassword } =
     req.body;
   if (
     !firstName ||
@@ -15,11 +15,16 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
     !nic ||
     !dob ||
     !gender ||
-    !password
+    !password||
+    !confirmPassword
   ) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
-
+if (password !== confirmPassword) {
+    return next(
+      new ErrorHandler("Password & Confirm Password Do Not Match!", 400)
+    );
+  }
   const isRegistered = await User.findOne({ email });
   if (isRegistered) {
     return next(new ErrorHandler("User already Registered!", 400));
@@ -40,15 +45,11 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-  const { email, password, confirmPassword, role } = req.body;
-  if (!email || !password || !confirmPassword || !role) {
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
-  if (password !== confirmPassword) {
-    return next(
-      new ErrorHandler("Password & Confirm Password Do Not Match!", 400)
-    );
-  }
+  
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
     return next(new ErrorHandler("Invalid Email Or Password!", 400));
@@ -194,7 +195,6 @@ export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Logout function for dashboard admin
 export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
   res
     .status(201)
@@ -208,7 +208,6 @@ export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-// Logout function for frontend patient
 export const logoutPatient = catchAsyncErrors(async (req, res, next) => {
   res
     .status(201)
